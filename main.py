@@ -3,49 +3,19 @@ def readData(fileName):
         lines = f.readlines()
     return lines
 
-def prioritiesSumPartOne(fileName):
-    rucksacks = readData(fileName)
-    prioritySum = 0
-    for rucksack in rucksacks:
-        compartment1, compartment2 = rucksack[:len(rucksack) // 2], rucksack[len(rucksack) // 2:]
-        commonType = list(set(compartment1) & set(compartment2))
-        if ord(commonType[0]) in range(65,91):
-            priority = ord(commonType[0]) - 38
-        else:
-            priority = ord(commonType[0]) - 96
-        prioritySum +=priority
-    print ("The sum of the prorities of the shared item types is " + str(prioritySum))
+def containedPairs(fileName):
+    pairs = readData(fileName)
+    containedCount = 0
+    for pair in pairs:
+        stripPair= pair.strip('\n')
+        assignments = stripPair.split(",")
+        firstElf = assignments[0].split("-")
+        secondElf = assignments[1].split("-")
+        if int(firstElf[0]) <= int(secondElf[0]) and int(firstElf[1]) >= int(secondElf[1]):
+            containedCount += 1
+        elif int(secondElf[0]) <= int(firstElf[0]) and int(secondElf[1]) >= int(firstElf[1]):
+            containedCount += 1
+    print("There are " + str(containedCount) + " pairs where one's work fully contains another.")
 
-def prioritiesSum(fileName):
-    rucksacks = readData(fileName)
-    groups = []
-    prioritySum = 0
+containedPairs("day4.txt")
 
-
-    currentList = []
-    currentSack = 1
-    for rucksack in rucksacks:
-        currentList.append(rucksack)
-        if currentSack == 3:
-            groups.append(currentList)
-            currentList = []
-            currentSack = 0
-        currentSack+=1
-    for group in groups:
-        sack1 = group[0].strip()
-        sack2 = group[1].strip()
-        sack3 = group[2].strip()
-        commonFirstTwo = list(set(sack1) & set(sack2))
-        for char in commonFirstTwo:
-            if char in sack3:
-                commonType = char
-        if ord(commonType) in range(65,91):
-            priority = ord(commonType) - 38
-        else:
-            priority = ord(commonType) - 96
-        prioritySum +=priority
-    print("The sum of the prorities of the shared item types is " + str(prioritySum))
-
-
-
-prioritiesSum("day3.txt")
