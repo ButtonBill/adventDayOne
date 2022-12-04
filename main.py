@@ -1,39 +1,41 @@
 def readData(fileName):
-    calorieDict = {}
-    currentElf = 1
-    currentCalories = 0
     with open(fileName, 'r', encoding="utf-8") as f:
         lines = f.readlines()
+    return lines
 
-        for line in lines:
-            if line.strip() == "":
-                calorieDict[currentElf]=currentCalories
-                currentElf+=1
-                currentCalories=0
-            else:
-                currentCalories+=int(line)
+def roundScore(selections):
+    if selections[1] == 'X':
+        score = 1
+        if selections[0] == 'A':
+            score += 3
+        elif selections[0] == 'B':
+            score += 0
+        else:
+            score += 6
+    elif selections[1] == 'Y':
+        score = 2
+        if selections[0] == 'A':
+            score += 6
+        elif selections[0] == 'B':
+            score +=3
+        else:
+            score += 0
+    else:
+        score = 3
+        if selections[0] == 'A':
+            score +=0
+        elif selections[0] == 'B':
+            score +=6
+        else:
+            score +=3
+    return score
 
-    return calorieDict
+def finalScore(fileName):
+    totalScore = 0
+    strategyGuide = readData(fileName)
+    for line in strategyGuide:
+        splitLine = line.split()
+        totalScore +=roundScore(splitLine)
+    print("The total score is " + str(totalScore))
 
-def mostCalories(fileName):
-    calorieDict = readData(fileName)
-    highestCalories = max(calorieDict.values())
-    mostCaloriesElf = max(calorieDict, key=calorieDict.get)
-
-    calorieDict.pop(mostCaloriesElf)
-    secondHighestCalories = max(calorieDict.values())
-    secondMostCaloriesElf = max(calorieDict, key=calorieDict.get)
-
-    calorieDict.pop(secondMostCaloriesElf)
-    thirdHighestCalories = max(calorieDict.values())
-    thirdMostCaloriesElf = max(calorieDict, key=calorieDict.get)
-
-
-
-    print("The elf carrying the most calories is Elf number " + str(mostCaloriesElf) + " carrying " + str(highestCalories))
-    print("The elf carrying the second most calories is Elf number " + str(secondMostCaloriesElf) + " carrying " + str(secondHighestCalories))
-    print("The elf carrying the third most calories is Elf number " + str(thirdMostCaloriesElf) + " carrying " + str(thirdHighestCalories))
-    print("The total number of calories they're carrying is "+ str(highestCalories+secondHighestCalories+thirdHighestCalories))
-
-mostCalories("input.txt")
-
+finalScore("day2.txt")
