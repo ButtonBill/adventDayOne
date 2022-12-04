@@ -4,31 +4,33 @@ def readData(fileName):
     return lines
 
 def roundScore(selections):
+    #Need to lose
     if selections[1] == 'X':
-        score = 1
         if selections[0] == 'A':
-            score += 3
+            score = 3
         elif selections[0] == 'B':
-            score += 0
+            score = 1
         else:
-            score += 6
+            score = 2
+    #Need to Draw
     elif selections[1] == 'Y':
-        score = 2
         if selections[0] == 'A':
-            score += 6
+            score = 4
         elif selections[0] == 'B':
-            score +=3
+            score = 5
         else:
-            score += 0
+            score = 6
+    #Need to Win
     else:
-        score = 3
         if selections[0] == 'A':
-            score +=0
+            score = 8
         elif selections[0] == 'B':
-            score +=6
+            score = 9
         else:
-            score +=3
+            score = 7
     return score
+
+
 
 def finalScore(fileName):
     totalScore = 0
