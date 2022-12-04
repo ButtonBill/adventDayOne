@@ -3,41 +3,17 @@ def readData(fileName):
         lines = f.readlines()
     return lines
 
-def roundScore(selections):
-    #Need to lose
-    if selections[1] == 'X':
-        if selections[0] == 'A':
-            score = 3
-        elif selections[0] == 'B':
-            score = 1
+def prioritiesSum(fileName):
+    rucksacks = readData(fileName)
+    prioritySum = 0
+    for rucksack in rucksacks:
+        compartment1, compartment2 = rucksack[:len(rucksack) // 2], rucksack[len(rucksack) // 2:]
+        commonType = list(set(compartment1) & set(compartment2))
+        if ord(commonType[0]) in range(65,91):
+            priority = ord(commonType[0]) - 38
         else:
-            score = 2
-    #Need to Draw
-    elif selections[1] == 'Y':
-        if selections[0] == 'A':
-            score = 4
-        elif selections[0] == 'B':
-            score = 5
-        else:
-            score = 6
-    #Need to Win
-    else:
-        if selections[0] == 'A':
-            score = 8
-        elif selections[0] == 'B':
-            score = 9
-        else:
-            score = 7
-    return score
+            priority = ord(commonType[0]) - 96
+        prioritySum +=priority
+    print ("The sum of the prorities of the shared item types is " + str(prioritySum))
 
-
-
-def finalScore(fileName):
-    totalScore = 0
-    strategyGuide = readData(fileName)
-    for line in strategyGuide:
-        splitLine = line.split()
-        totalScore +=roundScore(splitLine)
-    print("The total score is " + str(totalScore))
-
-finalScore("day2.txt")
+prioritiesSum("day3.txt")
